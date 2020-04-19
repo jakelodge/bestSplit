@@ -204,13 +204,10 @@ function loadFile( $filename = null ) :void {
         $endpoint = preg_replace ( '~\{id\}~' , $id , $endpoint );
 
         $ccn = curl_init();
-
         curl_setopt($ccn, CURLOPT_URL, $endpoint);
         curl_setopt($ccn, CURLOPT_RETURNTRANSFER, true);
-
         $contents = curl_exec($ccn);
         curl_close($ccn);
-
     }else{
         $contents = @file_get_contents($filename);
     }
