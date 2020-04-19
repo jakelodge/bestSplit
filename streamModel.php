@@ -236,7 +236,7 @@ class Stream{
         };
 
         // $step = $this->distanceIndexed[1]->distance; // get the distance step size
-        $k/=$this->stepSize; // $step;  // If the step size is 10m, then we need 500 samples
+        $w = $k/$this->stepSize;  // If the step size is 10m, then we need 500 samples
 
         $di = array_map(
             function($i) :int { return $i->timeToLast; },
@@ -245,7 +245,7 @@ class Stream{
 
         // $di = array_filter($di); // remove elements with 0 distance
 
-        $fw = minSum( $di, (int)floor($k) );
+        $fw = minSum( $di, (int)floor($w) );
 
         echo "fastest: \n".
           ($this->distanceIndexed[$fw['indexStart']]->distance).
@@ -258,16 +258,17 @@ class Stream{
 
         echo $t0->format('H:i:s')." -- ".$t1->format('H:i:s')."\n\n";
 
-        $p = $fw['indexStart'];
-        $chunkSize = (int)floor(1000 / $this->stepSize);
+        if( $k > 1000 ){
 
-        if( $k * $this->stepSize > 1000 ){
+            $p = $fw['indexStart'];
+
+            $chunkSize = (int)floor(1000 / $this->stepSize);
             echo "splits:\n";
-            for ($i=1; $i <= ceil( ($k * $this->stepSize)/1000); $i++) {
+            for ($i=1; $i <= ceil( $k/1000); $i++) {
 
-                $s = array_slice( $this->distanceIndexed, $p, $chunkSize );
+                $s = array_slice( $this->distanceIndexed, $p, $chunkSize, true);
 
-                $s = array_map(function($e) :bool {
+                $s = array_map(function($e) :int {
                       return $e->timeToLast;
                   }, $s);
 
