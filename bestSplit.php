@@ -120,6 +120,7 @@ function setup() :void {
 
     foreach ($args as $a => $arg) {
         switch (substr($a,1)) {
+          case 'u': case 'url':
           case 'f': case 'file':
               // set filename
               $filename = $arg;
@@ -195,7 +196,24 @@ function loadFile( $filename = null ) :void {
         echo "$filename\n";
     }
 
-    $contents = @file_get_contents($filename);
+    //if it's a URL:
+    if(substr($filename,0,4) === 'http'){
+        $endpoint = "https://nene.strava.com/flyby/stream_compare/{id}/{id}";
+        preg_match('~/activities/(\d+)/?~', $filename, $id);
+        $id=$id[1];
+        $endpoint = preg_replace ( '~\{id\}~' , $id , $endpoint );
+
+        $ccn = curl_init();
+
+        curl_setopt($ccn, CURLOPT_URL, $endpoint);
+        curl_setopt($ccn, CURLOPT_RETURNTRANSFER, true);
+
+        $contents = curl_exec($ccn);
+        curl_close($ccn);
+
+    }else{
+        $contents = @file_get_contents($filename);
+    }
     if( false === $contents ){
         echo("An error occured attempting to open file\n");
         exit(1);
