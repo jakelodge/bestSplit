@@ -248,8 +248,8 @@ class Stream{
         $fw = minSum( $di, (int)floor($w) );
 
         echo "fastest: \n".
-          ($this->distanceIndexed[$fw['indexStart']]->distance).
-          "m -- ".($this->distanceIndexed[$fw['indexEnd']]->distance)."m\n";
+          ($this->distanceIndexed[$fw['indexStart']]->distance)."m -- ".
+          ($this->distanceIndexed[$fw['indexEnd']]->distance)."m\n";
 
         $t0 = new DateTime();
         $t0->setTime( 0,0, $this->distanceIndexed[$fw['indexStart']]->elapsed );
@@ -285,8 +285,6 @@ class Stream{
         }
 
         echo "duration:\n";
-
-        //"m -- ".($this->distanceIndexed[$fw['indexEnd']]->distance)."m\n";
 
         $date = new DateTime();
         $date->setTime( 0,0, $fw['duration'] );
