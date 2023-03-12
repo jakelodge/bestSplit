@@ -48,7 +48,9 @@ class Stream{
     * @param int $verbosity
     */
     public function setVerbosity($verbosity) :void {
-        $this->verbose = 1;
+        if(!empty($verbosity)){
+            $this->verbose = 1;
+        }
     }
 
 
@@ -169,7 +171,7 @@ class Stream{
 
         }
 
-        return $v;
+        return (int)$v;
 
     }
 
@@ -180,7 +182,7 @@ class Stream{
     private function initDistanceIndexed() :void {
 
         $ti = array_map(
-            function($i) :int { return $i->distance; },
+            function($i) :int { return (int)$i->distance; },
             $this->timeIndexed
           );
 
@@ -199,7 +201,7 @@ class Stream{
 
         for ( $i = 0; $i <= $this->distance ; $i += $this->stepSize ) {
 
-            $tmp = new stdclass;
+            $tmp = new stdClass;
             $tmp->distance = $i;
             $tmp->elapsed = $this->nearestNeighbour( $i, $ti );
 
