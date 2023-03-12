@@ -17,7 +17,7 @@ loadFile($filename);
 try {
     $stream = new Stream( $contents );
 } catch (\Exception $e) {
-    echo("An error occured attempting to process file\n");
+    echo("An error occurred attempting to process file\n");
     echo "({$e->getMessage()})\n";
     exit(1);
 }
@@ -145,7 +145,7 @@ function setup() :void {
 
           case 'h': case 'help':
               // show help
-              echo "Options:\n -f filename\n -s step size (default = 10)\n -v verbosity (default = 0)\n -h help\n\n";
+              echo "Options:\n -f filename\n -h help \n -s step size (default = 10[m])\n -v verbosity (default = 0)\n -w window size (default = 1000[m])\n\n";
               exit(0);
             break;
 
@@ -212,7 +212,7 @@ function loadFile( $filename = null ) :void {
         $contents = @file_get_contents($filename);
     }
     if( false === $contents ){
-        echo("An error occured attempting to open file\n");
+        echo("An error occurred attempting to open file\n");
         exit(1);
     };
 
